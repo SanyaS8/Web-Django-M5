@@ -1,0 +1,31 @@
+{% load static %}
+<nav class="sidenav">
+    <h3 class="sidenav-title">Категории</h3>
+
+    <ul class="sidenav-list">
+        {% for c in category_menu %}
+        <li class="sidenav-item">
+            <a href="{{ c.url }}" class="sidenav-link">
+                <img src="{{ c.icon }}" alt="{{ c.name }}" class="sidenav-icon">
+                <span class="sidenav-name">{{ c.name }}</span>
+                {% if c.subs %}
+                    <span class="sidenav-arrow">›</span>
+                {% endif %}
+            </a>
+
+            {% if c.subs %}
+            <div class="sidenav-mega">
+                <div class="mega-inner">
+                    <h4>{{ c.name }}</h4>
+                    <ul>
+                        {% for sub in c.subs %}
+                        <li><a href="#">{{ sub }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+</nav>

@@ -1,0 +1,57 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block title %}
+  {% if category %}{{ category.name }}{% else %}Магазин техники{% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% if not category %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Техника для дома, работы и игр</h1>
+        <p>Смартфоны, ноутбуки, компьютеры, аксессуары</p>
+        <a href="#products" class="hero-btn">Перейти в каталог</a>
+    </div>
+</section>
+{% endif %}
+
+<!-- POPULAR CATEGORIES -->
+<section class="category-tiles">
+    {% for c in popular_categories %}
+        {% with 'img/categories/'|add:c.slug|add:'.jpg' as bg %}
+            <a href="{{ c.url }}"
+            class="category-tile"
+            style="background-image: url('{% static bg %}')">
+            <span>{{ c.name }}</span>
+            </a>
+        {% endwith %}
+    {% endfor %}
+
+</section>
+
+<!-- PRODUCTS -->
+<section id="products" class="product-section">
+    <h2 class="section-title">
+        {% if category %}{{ category.name }}{% else %}Все товары{% endif %}
+    </h2>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}">
+                <h3>{{ product.name }}</h3>
+            </a>
+
+            <div class="product-bottom">
+                <span class="price">{{ product.price }} ₽</span>
+                <a href="{{ product.get_absolute_url }}" class="buy-btn">Купить</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

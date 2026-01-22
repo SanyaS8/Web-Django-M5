@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Электроника">
+  <rect width="120" height="120" rx="16" fill="#f6fbff"/>
+  <g transform="translate(20,24)" fill="#6b8cff">
+    <rect x="8" y="6" width="64" height="36" rx="6" />
+    <rect x="28" y="46" width="20" height="6" rx="2" />
+  </g>
+</svg>

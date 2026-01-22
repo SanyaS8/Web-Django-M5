@@ -1,0 +1,55 @@
+{% load static %}
+
+<!-- SERVICE BAR -->
+<div class="service-bar">
+<div class="service-left">
+  <a href="tel:+375291728401">+375 (29) 172-84-01 (A1)</a>
+  <a href="tel:+375298498401">+375 (29) 849-84-01 (МТС)</a>
+</div>
+
+
+  <div class="service-right">
+    <a href="#"><span class="service-icon">⚙️ Услуги</span></a>
+    <a href="#"><span class="service-icon">📍 Пункт выдачи</span></a>
+
+  </div>
+</div>
+
+<!-- MAIN HEADER -->
+<div class="main-header">
+  <div class="header-left">
+    <a href="{% url 'shop:product_list' %}" class="logo">
+      MyShop
+    </a>
+
+    <button class="catalog-btn">
+      Каталог
+    </button>
+  </div>
+
+  <form class="header-search">
+    <input type="text" placeholder="Поиск техники, брендов, моделей…">
+    <button type="submit">🔍</button>
+  </form>
+
+  <div class="header-right">
+    <a href="{% url 'cart:cart_detail' %}" class="header-icon">
+      <span class="icon">🛒</span>
+
+      {% if cart %}
+      <span class="cart-count">{{ cart|length }}</span>
+      {% endif %}
+      <span>Заказ</span>
+    </a>
+
+    <a href="#" class="header-icon">
+      <span class="icon">❤</span>
+      <span>Избранное</span>
+    </a>
+
+    <a href="#" class="header-icon">
+      <span class="icon">👤</span>
+      <span>Войти</span>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="category">
+  <rect width="120" height="120" rx="16" fill="#f0f6ff"/>
+  <g transform="translate(20,20)" fill="#6b8cff">
+    <circle cx="40" cy="20" r="10" />
+    <rect x="12" y="40" width="56" height="14" rx="4" />
+  </g>
+</svg>
