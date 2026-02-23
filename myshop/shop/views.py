@@ -6,15 +6,28 @@ from cart.forms import CartAddProductForm
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()
-    products = Product.objects.filter(available=True)
+
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
-    return render(request,
-                  'shop/product/list.html',
-                  {'category': category,
-                   'categories': categories,
-                   'products': products})
+        products = Product.objects.filter(
+            category=category,
+            available=True
+        )
+    else:
+        products = Product.objects.filter(
+            is_popular=True,
+            available=True
+        )
+
+    return render(
+        request,
+        'shop/product/list.html',
+        {
+            'category': category,
+            'categories': categories,
+            'products': products
+        }
+    )
 
 
 def product_detail(request, id, slug):
@@ -25,3 +38,16 @@ def product_detail(request, id, slug):
     cart_product_form = CartAddProductForm()
     return render(request, 'shop/product/detail.html', {'product': product,
                                                         'cart_product_form': cart_product_form})
+
+def catalog(request):
+    categories = Category.objects.all()
+    products = Product.objects.filter(available=True)
+
+    return render(
+        request,
+        'shop/product/catalog.html',
+        {
+            'categories': categories,
+            'products': products
+        }
+    )

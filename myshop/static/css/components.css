@@ -56,13 +56,14 @@
 /* MAIN HEADER */
 .main-header {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 7fr 3fr;
   align-items: center;
   gap: 24px;
   padding: 16px 32px;
   background: #ffffff;
   border-bottom: 1px solid var(--border);
 }
+
 
 /* LEFT */
 .header-left {
@@ -93,6 +94,8 @@
 
 
 .header-search {
+  width: 100%;
+  justify-self: start;
   display: flex;
   align-items: center;
   height: 44px;
@@ -125,7 +128,8 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 38px;
+  justify-content: left;   /* центр по горизонтали */
+  width: 40%;
 }
 
 .header-icon {
