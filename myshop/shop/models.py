@@ -35,6 +35,8 @@ class Product(models.Model):
 
     class Meta:
         ordering = ('name',)
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
         indexes = [
             models.Index(fields=['id', 'slug']),
         ]

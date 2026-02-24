@@ -4,6 +4,8 @@
 {% block title %}
     {% if category %}
         {{ category.name }}
+    {% elif query %}
+        Поиск: {{ query }}
     {% else %}
         Магазин техники
     {% endif %}
@@ -11,18 +13,21 @@
 
 {% block content %}
 
-{% if not category %}
+{% if not category and not query %}
 <section class="hero">
     <div class="hero-content">
         <h1>Техника для дома, работы и игр</h1>
         <p>Смартфоны, ноутбуки, компьютеры, аксессуары</p>
-        <a href="#products" class="hero-btn">Перейти в каталог</a>
+        <a href="{% url 'shop:catalog' %}" class="hero-btn">
+            Перейти в каталог
+        </a>
     </div>
 </section>
 {% endif %}
 
 
 <!-- POPULAR CATEGORIES -->
+{% if not category and not query %}
 <section class="category-tiles">
     {% for c in popular_categories %}
         {% with 'img/categories/'|add:c.slug|add:'.jpg' as bg %}
@@ -34,13 +39,17 @@
         {% endwith %}
     {% endfor %}
 </section>
+{% endif %}
 
 
 <!-- PRODUCTS -->
 <section id="products" class="product-section">
+
     <h2 class="section-title">
         {% if category %}
             {{ category.name }}
+        {% elif query %}
+            Результаты поиска
         {% else %}
             Популярное
         {% endif %}
@@ -49,7 +58,8 @@
     <div class="product-grid">
 
         {% if products %}
-            {% if not category %}
+            
+            {% if not category and not query %}
                 {% for product in products|slice:":4" %}
                     <div class="product-card">
                         <a href="{{ product.get_absolute_url }}">
@@ -90,11 +100,43 @@
                     </div>
                 {% endfor %}
             {% endif %}
+
         {% else %}
             <p class="no-products">Товары не найдены.</p>
         {% endif %}
 
     </div>
+
+
+    <!-- ===== ПАГИНАЦИЯ ===== -->
+    {% if products.paginator.num_pages > 1 %}
+    <div class="pagination">
+
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}&q={{ query }}&sort={{ current_sort }}">
+                &lsaquo;
+            </a>
+        {% endif %}
+
+        {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+                <span class="active">{{ num }}</span>
+            {% elif num >= products.number|add:-2 and num <= products.number|add:2 %}
+                <a href="?page={{ num }}&q={{ query }}&sort={{ current_sort }}">
+                    {{ num }}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}&q={{ query }}&sort={{ current_sort }}">
+                &rsaquo;
+            </a>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
 </section>
 
 {% endblock %}

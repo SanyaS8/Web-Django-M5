@@ -835,5 +835,74 @@
   transform: translateY(-1px);
   box-shadow: 0 22px 44px rgba(32,102,176,0.55);
 }
+.catalog-controls {
+  margin-bottom: 24px;
+}
 
+.sort-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
+/* скрываем стандартные radio */
+.sort-buttons input[type="radio"] {
+  display: none;
+}
+
+/* кнопки */
+.sort-buttons label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #f2f4f7;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.sort-buttons label:hover {
+  background: #e6ebf3;
+}
+
+/* активная */
+.sort-buttons input[type="radio"]:checked + label {
+  background: #2066b0;
+  color: #fff;
+  border-color: #2066b0;
+}
+
+/* иконки */
+.sort-buttons i {
+  font-size: 14px;
+}
+
+/* ===== ПАГИНАЦИЯ ===== */
+
+.pagination {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pagination a,
+.pagination span {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #f2f4f7;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination a:hover {
+  background: #e6ebf3;
+}
+
+.pagination .active {
+  background: #2066b0;
+  color: #fff;
+}

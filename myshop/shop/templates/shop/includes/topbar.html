@@ -20,9 +20,22 @@
     </a>
   </div>
 
-  <form class="header-search">
-    <input type="text" placeholder="Поиск техники, брендов, моделей…">
-    <button type="submit">🔍</button>
+  <form class="header-search"
+        method="get"
+        action="{% if category %}
+                    {% url 'shop:product_list_by_category' category.slug %}
+                {% else %}
+                    {% url 'shop:catalog' %}
+                {% endif %}">
+
+      <input type="text"
+            name="q"
+            value="{{ request.GET.q }}"
+            placeholder="Поиск техники, брендов, моделей…">
+
+      <button type="submit">
+          <i class="bi bi-search"></i>
+      </button>
   </form>
 
   <div class="header-right">

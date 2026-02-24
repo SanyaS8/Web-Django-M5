@@ -2,35 +2,130 @@
 {% load static %}
 
 {% block title %}
-    Каталог товаров
+Каталог товаров
 {% endblock %}
 
 {% block content %}
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
 <section class="product-section">
+
     <h2 class="section-title">Каталог</h2>
 
-    <div class="product-grid">
-        {% for product in products %}
-            <div class="product-card">
-                <a href="{{ product.get_absolute_url }}">
-                    <img src="{% if product.image %}
-                                {{ product.image.url }}
-                              {% else %}
-                                {% static 'img/no_image.png' %}
-                              {% endif %}">
-                    <h3>{{ product.name }}</h3>
-                </a>
+    <!-- ===== СОРТИРОВКА ===== -->
+    <form method="get" class="catalog-controls">
 
-                <div class="product-bottom">
-                    <span class="price">{{ product.price }} ₽</span>
-                    <a href="{{ product.get_absolute_url }}" class="buy-btn">
-                        Купить
+        {% if query %}
+            <input type="hidden" name="q" value="{{ query }}">
+        {% endif %}
+
+        <div class="sort-buttons">
+
+            <input type="radio" id="default" name="sort" value=""
+                   {% if not current_sort %}checked{% endif %}
+                   onchange="this.form.submit()">
+            <label for="default">
+                <i class="bi bi-grid"></i>
+                По умолчанию
+            </label>
+
+            <input type="radio" id="price_desc" name="sort" value="price_desc"
+                   {% if current_sort == 'price_desc' %}checked{% endif %}
+                   onchange="this.form.submit()">
+            <label for="price_desc">
+                Цена
+                <i class="bi bi-sort-down"></i>
+            </label>
+
+            <input type="radio" id="price_asc" name="sort" value="price_asc"
+                   {% if current_sort == 'price_asc' %}checked{% endif %}
+                   onchange="this.form.submit()">
+            <label for="price_asc">
+                Цена
+                <i class="bi bi-sort-up"></i>
+            </label>
+
+            <input type="radio" id="name_asc" name="sort" value="name_asc"
+                   {% if current_sort == 'name_asc' %}checked{% endif %}
+                   onchange="this.form.submit()">
+            <label for="name_asc">
+                A–Я
+                <i class="bi bi-sort-alpha-down"></i>
+            </label>
+
+            <input type="radio" id="name_desc" name="sort" value="name_desc"
+                   {% if current_sort == 'name_desc' %}checked{% endif %}
+                   onchange="this.form.submit()">
+            <label for="name_desc">
+                Я–A
+                <i class="bi bi-sort-alpha-up"></i>
+            </label>
+
+        </div>
+
+    </form>
+
+
+    <!-- ===== ТОВАРЫ ===== -->
+    <div class="product-grid">
+
+        {% if products %}
+            {% for product in products %}
+                <div class="product-card">
+                    <a href="{{ product.get_absolute_url }}">
+                        <img src="{% if product.image %}
+                                    {{ product.image.url }}
+                                  {% else %}
+                                    {% static 'img/no_image.png' %}
+                                  {% endif %}">
+                        <h3>{{ product.name }}</h3>
                     </a>
+
+                    <div class="product-bottom">
+                        <span class="price">{{ product.price }} ₽</span>
+                        <a href="{{ product.get_absolute_url }}" class="buy-btn">
+                            Купить
+                        </a>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p class="no-products">Товары не найдены.</p>
+        {% endif %}
+
     </div>
+
+
+    <!-- ===== ПАГИНАЦИЯ ===== -->
+    {% if products.paginator.num_pages > 1 %}
+    <div class="pagination">
+
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}&q={{ query }}&sort={{ current_sort }}">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        {% endif %}
+
+        {% for num in products.paginator.page_range %}
+            {% if products.number == num %}
+                <span class="active">{{ num }}</span>
+            {% elif num >= products.number|add:-2 and num <= products.number|add:2 %}
+                <a href="?page={{ num }}&q={{ query }}&sort={{ current_sort }}">
+                    {{ num }}
+                </a>
+            {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}&q={{ query }}&sort={{ current_sort }}">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        {% endif %}
+
+    </div>
+    {% endif %}
+
 </section>
 
 {% endblock %}
